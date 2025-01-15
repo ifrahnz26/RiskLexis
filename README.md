@@ -37,7 +37,7 @@ This project automates the identification of high-risk clauses in contracts, rep
 ## Installation
 1. Clone the repository:  
    ```bash
-   git clone https://github.com/username/RiskLexis.git
+   git clone https://github.com/ifrahnz26/RiskLexis.git
    cd RiskLexis
    ```
 2. Install dependencies:  
@@ -62,7 +62,6 @@ This project automates the identification of high-risk clauses in contracts, rep
   
 ![image](https://github.com/user-attachments/assets/4028e249-d679-472b-967a-7b28b2a50c54)
 ![image](https://github.com/user-attachments/assets/841375d1-d389-4a4e-8f60-91c90ebf6401)
-
 
 ## Future Work
 - Expand the dataset to include more diverse contract types.  
