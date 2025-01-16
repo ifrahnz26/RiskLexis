@@ -107,49 +107,4 @@ if st.button("Assess Risk"):
 else:
     st.info("Upload a contract file and click 'Assess Risk' to get started.")
 
-import streamlit as st
-from transformers import pipeline, T5Tokenizer, T5ForConditionalGeneration
-
-# Load Model and Tokenizer
-@st.cache_resource
-def load_pipeline():
-    model_name = "valhalla/t5-base-qg-hl"  
-    tokenizer = T5Tokenizer.from_pretrained(model_name)
-    model = T5ForConditionalGeneration.from_pretrained(model_name)
-    return pipeline("text2text-generation", model=model, tokenizer=tokenizer)
-
-# Initialize pipeline
-risk_assessment_pipeline = load_pipeline()
-
-# Streamlit App UI
-st.title("RISKLEXIS - Contract Clause Risk Assessment")
-st.write("Input contract text to automatically assess the risks in its clauses.")
-
-# Text Input for Contract
-contract_text = st.text_area("Paste the contract text below:", height=300)
-
-# Add a slider to limit the number of clauses for assessment
-max_clauses = st.slider("Select the maximum number of clauses to assess", 1, 20, 5)
-
-if st.button("Assess Risk"):
-    st.subheader("Risk Assessment Results")
-    if contract_text:
-        with st.spinner("Assessing risks..."):
-            try:
-                clauses = contract_text.split(". ")
-                clauses = clauses[:max_clauses]  
-                
-                for idx, clause in enumerate(clauses):
-                    formatted_input = f"Assess the risk of the following contract clause: {clause}"
-                    generated = risk_assessment_pipeline(formatted_input, max_length=128, num_return_sequences=1)
-                    risk_assessment = generated[0]["generated_text"]
-                    st.markdown(f"*Clause {idx+1}:* {clause}")
-                    st.markdown(f"*Risk Assessment:* {risk_assessment}")
-                    st.write("---")
-            except Exception as e:
-                st.error(f"An error occurred while assessing risk: {e}")
-    else:
-        st.error("Please input contract text to perform the risk assessment.")
-else:
-    st.info("Paste your contract text and click 'Assess Risk' to get started.")
 
